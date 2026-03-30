@@ -23,7 +23,7 @@ jobs:
           cache: maven
 
       - name: Chay test
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -DsuiteXmlFile=testng-smoke.xml
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dheadless=true -DsuiteXmlFile=src/test/resources/testng-smoke.xml
         env:
           APP_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
           APP_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}

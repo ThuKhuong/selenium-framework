@@ -1,6 +1,7 @@
 package base;
 
 import org.apache.commons.io.FileUtils;
+import io.qameta.allure.Attachment;
 import org.openqa.selenium.*;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -26,6 +27,7 @@ public class BaseTest {
         String runtimeEnv = System.getProperty("env", env);
         String browser = System.getProperty("browser", "chrome");
         boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+        String gridUrl = System.getProperty("grid.url", "");
         System.setProperty("env", runtimeEnv);
 
         ConfigReader.reset();
@@ -34,7 +36,7 @@ public class BaseTest {
         System.out.println("Đang dùng môi trường: " + config.getEnvironment());
         System.out.println("explicit wait = " + config.getExplicitWait());
 
-        driver.set(DriverFactory.createDriver(browser, headless));
+        driver.set(DriverFactory.createDriver(browser, headless, gridUrl));
         getDriver().manage().window().maximize();
         getDriver().get(config.getBaseUrl());
     }
@@ -42,6 +44,9 @@ public class BaseTest {
     @AfterMethod
     public void tearDown(ITestResult result) {
         if (getDriver() != null) {
+            if (result.getStatus() == ITestResult.FAILURE) {
+                attachScreenshot(getDriver());
+            }
             takeScreenshot(result.getMethod().getMethodName(), getDriver());
             getDriver().quit();
             driver.remove();
@@ -63,5 +68,10 @@ public class BaseTest {
         } catch (IOException e) {
             System.out.println("Screenshot failed");
         }
+    }
+
+    @Attachment(value = "Anh chup khi that bai", type = "image/png")
+    private byte[] attachScreenshot(WebDriver driver) {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 }
