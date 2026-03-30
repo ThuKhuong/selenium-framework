@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "0 2 * * 1-5"
 
+permissions:
+  contents: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -60,3 +63,5 @@ jobs:
           allure_results: allure-results
           gh_pages: gh-pages
           allure_report: allure-report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
