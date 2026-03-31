@@ -10,6 +10,10 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+      fail-fast: false
 
     steps:
       - name: Checkout code
@@ -22,14 +26,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Chạy Selenium Tests
-        run: mvn clean test -Dbrowser=chrome -DsuiteXmlFile=testng-smoke.xml
+      - name: Chạy test (${{ matrix.browser }})
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dheadless=true -DsuiteXmlFile=testng.xml
 
-      - name: Lưu kết quả test
+      - name: Lưu kết quả
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results-${{ matrix.browser }}
           path: |
             target/surefire-reports/
           retention-days: 30

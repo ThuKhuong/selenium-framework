@@ -2,7 +2,6 @@ package base;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import utils.ConfigReader;
@@ -25,6 +24,8 @@ public class BaseTest {
     @BeforeMethod
     public void setUp(@Optional("dev") String env) {
         String runtimeEnv = System.getProperty("env", env);
+        String browser = System.getProperty("browser", "chrome");
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         System.setProperty("env", runtimeEnv);
 
         ConfigReader.reset();
@@ -33,7 +34,7 @@ public class BaseTest {
         System.out.println("Đang dùng môi trường: " + config.getEnvironment());
         System.out.println("explicit wait = " + config.getExplicitWait());
 
-        driver.set(new ChromeDriver());
+        driver.set(DriverFactory.createDriver(browser, headless));
         getDriver().manage().window().maximize();
         getDriver().get(config.getBaseUrl());
     }
