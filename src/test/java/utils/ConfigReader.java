@@ -50,4 +50,20 @@ public class ConfigReader {
     public int getRetryCount() {
         return Integer.parseInt(properties.getProperty("retry.count", "0"));
     }
+
+    public String getAppUsername() {
+        String username = System.getenv("APP_USERNAME");
+        if (username == null || username.isBlank()) {
+            username = properties.getProperty("app.username");
+        }
+        return username;
+    }
+
+    public String getAppPassword() {
+        String password = System.getenv("APP_PASSWORD");
+        if (password == null || password.isBlank()) {
+            password = properties.getProperty("app.password");
+        }
+        return password;
+    }
 }

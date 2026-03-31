@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.InventoryPage;
 import pages.LoginPage;
+import utils.ConfigReader;
 
 public class LoginTest extends BaseTest {
 
@@ -18,13 +19,18 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void loginSuccess() {
-        InventoryPage inventoryPage = loginPage.login("standard_user", "secret_sauce");
+        ConfigReader config = ConfigReader.getInstance();
+        InventoryPage inventoryPage = loginPage.login(
+                config.getAppUsername(),
+                config.getAppPassword()
+        );
         Assert.assertTrue(inventoryPage.isLoaded(), "Inventory page is not loaded");
     }
 
     @Test
     public void loginFailWrongPassword() {
-        loginPage.loginExpectingFailure("standard_user", "wrong_password");
+        ConfigReader config = ConfigReader.getInstance();
+        loginPage.loginExpectingFailure(config.getAppUsername(), "wrong_password");
         Assert.assertTrue(loginPage.isErrorDisplayed(), "Error message is not displayed");
     }
 }

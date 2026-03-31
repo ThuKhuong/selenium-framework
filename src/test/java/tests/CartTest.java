@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import pages.CartPage;
 import pages.InventoryPage;
 import pages.LoginPage;
+import utils.ConfigReader;
 
 public class CartTest extends BaseTest {
 
@@ -15,7 +16,8 @@ public class CartTest extends BaseTest {
     @BeforeMethod
     public void initPage() {
         LoginPage loginPage = new LoginPage(getDriver());
-        inventoryPage = loginPage.login("standard_user", "secret_sauce");
+        ConfigReader config = ConfigReader.getInstance();
+        inventoryPage = loginPage.login(config.getAppUsername(), config.getAppPassword());
     }
 
     @Test

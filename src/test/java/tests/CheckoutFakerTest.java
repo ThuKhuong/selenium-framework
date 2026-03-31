@@ -8,6 +8,7 @@ import pages.CheckoutPage;
 import pages.InventoryPage;
 import pages.LoginPage;
 import utils.TestDataFactory;
+import utils.ConfigReader;
 
 import java.util.Map;
 
@@ -16,8 +17,12 @@ public class CheckoutFakerTest extends BaseTest {
     @Test
     public void checkoutWithRandomData() {
         LoginPage loginPage = new LoginPage(getDriver());
+        ConfigReader config = ConfigReader.getInstance();
 
-        InventoryPage inventoryPage = loginPage.login("standard_user", "secret_sauce");
+        InventoryPage inventoryPage = loginPage.login(
+            config.getAppUsername(),
+            config.getAppPassword()
+        );
         CartPage cartPage = inventoryPage
                 .addFirstItemToCart()
                 .goToCart();

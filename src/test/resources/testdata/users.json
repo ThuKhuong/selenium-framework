@@ -1,27 +1,27 @@
 [
   {
-    "username": "standard_user",
-    "password": "secret_sauce",
+    "username": "${APP_USERNAME}",
+    "password": "${APP_PASSWORD}",
     "role": "standard",
     "expectSuccess": true,
     "description": "Login success with standard user"
   },
   {
     "username": "problem_user",
-    "password": "secret_sauce",
+    "password": "${APP_PASSWORD}",
     "role": "problem",
     "expectSuccess": true,
     "description": "Login success with problem user"
   },
   {
     "username": "locked_out_user",
-    "password": "secret_sauce",
+    "password": "${APP_PASSWORD}",
     "role": "locked",
     "expectSuccess": false,
     "description": "Login fail with locked out user"
   },
   {
-    "username": "standard_user",
+    "username": "${APP_USERNAME}",
     "password": "wrong_password",
     "role": "invalid_password",
     "expectSuccess": false,
@@ -29,7 +29,7 @@
   },
   {
     "username": "",
-    "password": "secret_sauce",
+    "password": "${APP_PASSWORD}",
     "role": "empty_username",
     "expectSuccess": false,
     "description": "Login fail with empty username"
