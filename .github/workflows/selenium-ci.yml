@@ -27,7 +27,7 @@ jobs:
           cache: maven
 
       - name: Chạy test (${{ matrix.browser }})
-        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dheadless=true -DsuiteXmlFile=testng.xml
+        run: mvn clean test -Dbrowser=${{ matrix.browser }} -Dheadless=true -DsuiteXmlFile=src/test/resources/testng-smoke.xml
 
       - name: Lưu kết quả
         if: always()
