@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         browser: [chrome, firefox]
+      max-parallel: 1
       fail-fast: false
 
     steps:
